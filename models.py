@@ -25,7 +25,7 @@ class User(db.Model):
     def create_user(username, password):
         new_user = User(username=username, hashed_password=password)
         db.session.add(new_user)
-        return db.session.commit()
+        db.session.commit()
 
 
 class Whisky(db.Model):

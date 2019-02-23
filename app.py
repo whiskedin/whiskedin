@@ -23,11 +23,9 @@ def register_user():
 
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
-    if User.create_user(username, hashed_password):
-        token = create_access_token(identity=username)
-        return jsonify(access_token=token), 201
-    else:
-        return jsonify(msg='Error occurred'), 500
+    User.create_user(username, hashed_password)
+    token = create_access_token(identity=username)
+    return jsonify(access_token=token), 201
 
 
 @app.route('/login', methods=['POST'])
