@@ -1,4 +1,0 @@
-flask
-bcrypt
-flask-sqlalchemy
-psycopg2
