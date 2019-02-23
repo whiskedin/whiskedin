@@ -3,8 +3,7 @@ from flask import Flask, request, jsonify
 from flask_jwt_extended import create_access_token
 
 from models import User
-
-app = Flask(__name__)
+from config import app
 
 
 @app.route('/register', methods=['POST'])
@@ -51,5 +50,4 @@ def login():
         return jsonify(msg='Invalid username or password'), 400
 
 
-if __name__ == '__main__':
-    app.run()
+
