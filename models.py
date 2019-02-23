@@ -17,6 +17,16 @@ class User(db.Model):
 
     db.relationship('Whisky', backref='user')
 
+    @staticmethod
+    def get_user(username):
+        return User.query.filter_by(username=username).first()
+
+    @staticmethod
+    def create_user(username, password):
+        new_user = User(username=username, hashed_password=password)
+        db.session.add(new_user)
+        return db.session.commit()
+
 
 class Whisky(db.Model):
     wid = db.Column(db.Integer, primary_key=True)
