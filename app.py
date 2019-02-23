@@ -39,7 +39,16 @@ def login():
         password
     :return: json containing access_token if all goes well
     """
-    pass
+    username = request.form['username']
+    password = request.form['password']
+
+    user = User.get_user(username)
+
+    if user and bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
+        token = create_access_token(identity=username)
+        return jsonify(access_token=token)
+    else:
+        return jsonify(msg='Invalid username or password'), 400
 
 
 if __name__ == '__main__':
