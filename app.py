@@ -41,7 +41,7 @@ def login():
 
     user = User.get_user(username)
 
-    if user and bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
+    if user and bcrypt.checkpw(password.encode('utf-8'), user.hashed_password.encode('utf-8')):
         token = create_access_token(identity=username)
         return jsonify(access_token=token)
     else:
