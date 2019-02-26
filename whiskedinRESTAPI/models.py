@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from config import db
+from whiskedinRESTAPI.config import db
 
 shared_whisky = db.Table('shared_whisky',
                          db.Column('shared_by', db.Integer, db.ForeignKey('user.uid')),

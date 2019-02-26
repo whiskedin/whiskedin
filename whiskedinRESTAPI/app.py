@@ -1,9 +1,9 @@
 import bcrypt
-from flask import Flask, request, jsonify
+from flask import request, jsonify
 from flask_jwt_extended import create_access_token
 
-from models import User
-from config import app
+from whiskedinRESTAPI.models import User
+from whiskedinRESTAPI.config import app
 
 
 @app.route('/register', methods=['POST'])
