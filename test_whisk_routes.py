@@ -1,29 +1,25 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_testing import TestCase
+import unittest
 
-from config import db
+from app import db, app
 
 
-class LoginRegisterTest(TestCase):
+class BasicTests(unittest.TestCase):
+    TEST_DB = 'test.db'
 
-    DATABASE_URI = "sqlite:////tmp/test.db"
-    db = None
+    ############################
+    #### setup and teardown ####
+    ############################
 
-    def create_app(self):
-        app = Flask(__name__)
-        app.config['TESTING'] = True
-        app.config['SQLALCHEMY_DATABASE_URI'] = self.DATABASE_URI
-        self.db = SQLAlchemy(app)
-
-        return app
-
+    # executed prior to each test
     def setUp(self):
+        app.config['TESTING'] = True
+        app.config['WTF_CSRF_ENABLED'] = False
+        app.config['DEBUG'] = False
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + self.TEST_DB
+        self.app = app.test_client()
+        db.drop_all()
         db.create_all()
 
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
-
-    def test_(self):
-        self.assertEqual(None, None)
+    def test_login(self):
+        response = self.app.post('/register', data={'username': 'huh', 'password': 'pass'})
+        print('bop')
