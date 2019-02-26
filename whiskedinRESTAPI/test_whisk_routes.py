@@ -1,5 +1,7 @@
 import unittest
 
+import bcrypt
+
 from whiskedinRESTAPI.app import db, app, User
 
 
@@ -42,7 +44,21 @@ class UserTests(unittest.TestCase):
         self.assertEqual(created_user.hashed_password, user.hashed_password)
 
     def test_register(self):
-        pass
+        response = self.app.post('/register', data={'username': 'username', 'password': 'password'})
+        self.assertEqual(response.status, '201 CREATED')
+        self.assertIn('access_token', response.json)
 
-    def test_login(self):
-        pass
+    def test_login_no_user(self):
+        response = self.app.post('/login', data={'username': 'username', 'password': 'password'})
+        self.assertEqual(response.status, '400 BAD REQUEST')
+        self.assertIn('msg', response.json)
+
+    def test_login_user_exists(self):
+        password = 'password'
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        user = User(username='username', hashed_password=hashed_password)
+        db.session.add(user)
+        db.session.commit()
+        response = self.app.post('/login', data={'username': 'username', 'password': 'password'})
+        self.assertEqual(response.status, '200 OK')
+        self.assertIn('access_token', response.json)
