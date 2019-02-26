@@ -82,6 +82,7 @@ class User(db.Model):
         new_user = User(username=username, hashed_password=password)
         db.session.add(new_user)
         db.session.commit()
+        return new_user
 
 
 class Whisky(db.Model):
