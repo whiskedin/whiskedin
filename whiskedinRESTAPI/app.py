@@ -73,9 +73,9 @@ class User(db.Model):
 
     db.relationship('Whisky', backref='user')
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         #TODO: hash password here
-        super(User, self).__init__()
+        super(User, self).__init__(*args, **kwargs)
 
     @staticmethod
     def get_user(username):
