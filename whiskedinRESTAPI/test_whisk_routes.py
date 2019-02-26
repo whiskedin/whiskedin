@@ -1,6 +1,6 @@
 import unittest
 
-from app import db, app, User
+from whiskedinRESTAPI.app import db, app, User
 
 
 class UserTests(unittest.TestCase):
