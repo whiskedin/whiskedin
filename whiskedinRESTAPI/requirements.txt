@@ -5,3 +5,4 @@ psycopg2
 flask-jwt-extended
 gunicorn
 Flask-Testing
+flask-cors
