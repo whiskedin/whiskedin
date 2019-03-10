@@ -13,3 +13,4 @@ class WhiskedTest(unittest.TestCase):
         self.app = app.test_client()
         db.drop_all()
         db.create_all()
+
