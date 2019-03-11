@@ -7,5 +7,7 @@ Once the venv is up and running with all dependencies installed, run in the term
 All tests will run
 
 ## Running tests for frontend
+In terminal run yarn test
+ for home page unit tests
 In the terminal run the following command
 `npm run ci`
