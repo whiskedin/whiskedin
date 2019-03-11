@@ -6,3 +6,4 @@ flask-jwt-extended
 gunicorn
 Flask-Testing
 flask-cors
+selenium
