@@ -91,9 +91,4 @@ describe('Tests', function() {
     });
 });
 
-describe('Unit tests', function() {
-   test('Test handleNext', function() {
-       const card  =
-   }) ;
-});
 
