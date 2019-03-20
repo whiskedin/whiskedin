@@ -91,7 +91,11 @@ def whisky():
 
         return jsonify(whisky=whisky.build_dict()), 201
 
-
+    elif request.method == 'PUT':
+        username = get_jwt_identity()
+        form = request.form
+        updated_whisky = Whisky.update_whisky(**form)
+        return jsonify(whisky=updated_whisky.build_dict()), 202
 
 
 shared_whisky = db.Table('shared_whisky',
@@ -157,6 +161,20 @@ class Whisky(db.Model):
         db.session.add(new_whisky)
         db.session.commit()
         return new_whisky
+
+    @staticmethod
+    def update_whisky(wid, **kwargs):
+        whisky = Whisky.get_wisky(wid)
+        for key, value in kwargs.items():
+            whisky.__setattr__(key, value)
+        db.session.commit()
+        return whisky
+
+    @staticmethod
+    def get_wisky(wid):
+        whisky = Whisky.query.filter(wid=wid).first()
+        return whisky
+
 
     def build_dict(self):
         whisk = {
