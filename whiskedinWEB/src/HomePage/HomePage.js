@@ -1,121 +1,139 @@
-import React from 'react';
-import './HomePage.css';
-import whisk from '../img/whiskedinlogo.png';
+import React, { Fragment } from 'react';
+import WhiskeyCard from'./WhiskeyCard'
+import { AppBar, Toolbar, Grid, Paper, List, ListItem, ListItemText, Typography, Button } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import { ArrowForward, ArrowBack, AddBox, Edit} from '@material-ui/icons';
+import Fab from '@material-ui/core/Fab';
+import Icon from '@material-ui/core/Icon';
 
-class Card extends React.Component {
+export default class HomePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            Deck: props.deck,
-            Id: props.deck[0].Id,
-            Name: props.deck[0].Name,
-            Brand: props.deck[0].Brand
+            deck: [
+                {
+                    Idx: 0,
+                    Name: 'White Walker',
+                    Brand: 'Jhonny Walker 1',
+                },
+                {
+                    Idx: 1,
+                    Name: 'Red Label',
+                    Brand: 'Jhonnie Walker 2'
+                },
+                {
+                    Idx: 2,
+                    Name: 'Blue Label',
+                    Brand: 'Jhonnie Walker 3'
+                }
+            ],
+
+            currIndex: 0
         };
 
         this.handleNext = this.handleNext.bind(this);
         this.handleBack = this.handleBack.bind(this);
     }
 
+    
+
     handleNext() {
-        const id = this.state.Id + 1;
-        const deck = this.state.Deck;
-        if(id < deck.length && id >= 0){
-            this.setState(state => ({
-                Id: deck[id].Id,
-                Name: deck[id].Name,
-                Brand: deck[id].Brand
+        const index = this.state.currIndex + 1
+        if(index >= 0 && index < this.state.deck.length){
+            this.setState((state) => ({
+                currIndex: index
+            }));
+        } 
+    }
+
+    handleBack() {
+        const index = this.state.currIndex - 1
+        if(index >= 0){
+            this.setState((state) => ({
+                currIndex: index
             }));
         }
     }
 
-      handleBack() {
-        const id = this.state.Id - 1;
-        const deck = this.state.Deck;
-        if(id >= 0){
-            this.setState(state => ({
-                Id: deck[id].Id,
-                Name: deck[id].Name,
-                Brand: deck[id].Brand
-            }));
-        }
+    handleListClick = index => {
+        this.setState(() => ({
+            currIndex: index
+        }))
     }
-
-    render(){
-        return (
-            <div id='id_whisk_card'>
-                <table> 
-                    <thead>
-                        <tr>
-                            <th id='id_name'>{this.state.Name}</th>
-                            <th id='id_brand'>{this.state.Brand}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <button id='id_back_button' className='button' onClick={this.handleBack}>
-                                    {'Back'}
-                                </button>
-                                <img id='id_image' src={whisk} className='Card-Img' alt=''>
-                                </img>
-                                <button id="id_next_button" className='button' onClick={this.handleNext}>
-                                    {'Next'}
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <button id='id_share_button' className='button'>
-                                    {'Share'}
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>        
-        )
-    }
-}
-
-export default class HomePage extends React.Component {
-    state = {
-        deck: [
-            {
-                Id: 0,
-                Name: 'White Walker',
-                Brand: 'Jhonny Walker 1',
-            },
-            {
-                Id: 1,
-                Name: 'Red Label',
-                Brand: 'Jhonnie Walker 2'
-            },
-            {
-                Id: 2,
-                Name: 'Blue Label',
-                Brand: 'Jhonnie Walker 3'
-            }
-        ]
-    };
 
     render() {
-        const deck= this.state.deck;
+        const whiskeyCard= this.state.deck[this.state.currIndex]
+        const deck= this.state.deck
 
         return (
             <div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>WhiskedIn</th>
-                            <td>
-                                <button id='id_logout_button' className='button'>
-                                    {'Log Out'}
-                                </button>
-                            </td>
-                        </tr>
-                    </thead>
-                </table>
-                <Card deck={deck}/>
+                <Fragment>
+                    <AppBar position="static" style={{marginBottom:10}} >
+                        <Toolbar>
+                            <Typography variant="h6" color="inherit" style={{flexGrow: 1}}>
+                                WhiskedIn
+                            </Typography>
+                            <Button color="inherit">Logout</Button>
+                        </Toolbar>
+                    </AppBar>
+                </Fragment>
+                <Grid container>
+                    <Grid item sm={3}>
+                        <Paper>
+                            <List component="ul">
+                                <Grid container>
+                                    <Grid item sm={6} style={{marginInlineStart:20}}>
+                                        <Fab size="small" color="secondary" aria-label="Edit" style={{flexGrow: 1}}>
+                                            <AddBox />
+                                        </Fab>
+                                    </Grid>
+                                    <Grid item sm>
+                                        <Fab size="small" color="secondary" aria-label="Edit">
+                                            <Edit/>
+                                        </Fab>
+                                    </Grid>
+                                </Grid>
+                                {deck.map(({ Idx, Name }) =>
+                                    <ListItem 
+                                        key={Idx}
+                                        button
+                                        onClick={() => this.handleListClick(Idx)}
+                                    >
+                                        <ListItemText primary={Name} />
+                                    </ListItem>
+                                )}
+                            </List>
+                        </Paper>
+                    </Grid>
+                    <Grid item sm>
+                        <div>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <IconButton 
+                                                onClick={this.handleBack}
+                                            >
+                                                <ArrowBack />
+                                            </IconButton>
+                                        </td>
+                                        <td>
+                                                <WhiskeyCard 
+                                                    card={whiskeyCard}/>
+                                        </td>
+                                        <td>
+                                            <IconButton 
+                                                onClick={this.handleNext}
+                                            >
+                                                <ArrowForward />
+                                            </IconButton>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </Grid>
+                </Grid>
             </div>
         )
     }

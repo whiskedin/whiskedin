@@ -16,3 +16,11 @@
     display: block;
     margin: auto;
 }
+
+.card {
+    width: 400;
+  }
+
+.media {
+    height: 140;
+  }

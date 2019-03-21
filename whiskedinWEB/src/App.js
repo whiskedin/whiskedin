@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import {Route} from "react-router";
 import UserAuth from './UserAuth/UserAuth';
-import Home from './Home/Home';
 import HomePage from './HomePage/HomePage';
+import EditPage from './EditPage/EditPage';
 
 
 class App extends Component {
@@ -15,10 +15,10 @@ class App extends Component {
 
     render() {
     return (
-        <div className="App">
+        <div>
           <Route exact path="/" component={UserAuth}/>
-          <Route exact path="/home" component={Home}/>
           <Route exact path="/homepage" component={HomePage}/>
+          <Route exact path="/editpage" component={EditPage}/>
         </div>
     );
   }
