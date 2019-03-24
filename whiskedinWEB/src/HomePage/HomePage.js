@@ -5,6 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { ArrowForward, ArrowBack, AddBox, Edit} from '@material-ui/icons';
 import Fab from '@material-ui/core/Fab';
 import Icon from '@material-ui/core/Icon';
+import CreateDialog from './Create'
 
 export default class HomePage extends React.Component {
     constructor(props) {
@@ -61,6 +62,15 @@ export default class HomePage extends React.Component {
         }))
     }
 
+    onCreate = whiskey => {
+        this.setState(({deck}) => ({
+            deck: [
+            ...deck,
+            whiskey
+          ]
+        }))
+      }
+
     render() {
         const whiskeyCard= this.state.deck[this.state.currIndex]
         const deck= this.state.deck
@@ -83,9 +93,10 @@ export default class HomePage extends React.Component {
                             <List component="ul">
                                 <Grid container>
                                     <Grid item sm={6} style={{marginInlineStart:20}}>
-                                        <Fab size="small" color="secondary" aria-label="Edit" style={{flexGrow: 1}}>
-                                            <AddBox />
-                                        </Fab>
+                                        <CreateDialog 
+                                            onCreate={this.onCreate}
+                                            index={deck.length}
+                                        />
                                     </Grid>
                                     <Grid item sm>
                                         <Fab size="small" color="secondary" aria-label="Edit">
