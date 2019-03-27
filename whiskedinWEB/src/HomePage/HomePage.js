@@ -2,10 +2,10 @@ import React, { Fragment } from 'react';
 import WhiskeyCard from'./WhiskeyCard'
 import { AppBar, Toolbar, Grid, Paper, List, ListItem, ListItemText, Typography, Button } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
-import { ArrowForward, ArrowBack, AddBox, Edit} from '@material-ui/icons';
+import { ArrowForward, ArrowBack, Edit} from '@material-ui/icons';
 import Fab from '@material-ui/core/Fab';
-import Icon from '@material-ui/core/Icon';
 import CreateDialog from './Create'
+import axios from 'axios'
 
 export default class HomePage extends React.Component {
     constructor(props) {
@@ -13,20 +13,16 @@ export default class HomePage extends React.Component {
         this.state = {
             deck: [
                 {
-                    Idx: 0,
-                    Name: 'White Walker',
-                    Brand: 'Jhonny Walker 1',
+                    idx: 0,
+                    name: 'White Walker',
+                    company: 'Jhonny Walker 1',
+                    type: 'Scotch',
+                    age: '12 yrs',
+                    origin: 'Scotland',
+                    flavor: 'The best',
+                    description: 'Delicious',
+                    rating: '5 estrellas'
                 },
-                {
-                    Idx: 1,
-                    Name: 'Red Label',
-                    Brand: 'Jhonnie Walker 2'
-                },
-                {
-                    Idx: 2,
-                    Name: 'Blue Label',
-                    Brand: 'Jhonnie Walker 3'
-                }
             ],
 
             currIndex: 0
@@ -34,6 +30,14 @@ export default class HomePage extends React.Component {
 
         this.handleNext = this.handleNext.bind(this);
         this.handleBack = this.handleBack.bind(this);
+    }
+
+    componentDidMount(){
+        let config = {'Authorization': 'Bearer '.concat(JSON.parse(localStorage.getItem('user')))};
+        console.log(config.Authorization)
+        axios.get("https://whiskedin.herokuapp.com" + "/whiskies", { headers: config }).then(res => {
+            console.log(res)
+        })
     }
 
     
@@ -62,11 +66,25 @@ export default class HomePage extends React.Component {
         }))
     }
 
-    onCreate = whiskey => {
+    handleSubmit = whiskey => {
+
+        console.log(whiskey)
+
+        let config = {'Authorization': 'Bearer '.concat(JSON.parse(localStorage.getItem('user'))),
+                        'Content-Type': 'application/x-www-form-urlencoded'};
+        axios.post("https://whiskedin.herokuapp.com" + "/whiskies", whiskey, { headers: config })
+            .then(res => {
+                console.log(res)
+            })
+
+        const whiskeyCard = {
+            ...whiskey,
+            idx: this.state.deck.length
+        }   
         this.setState(({deck}) => ({
             deck: [
             ...deck,
-            whiskey
+            whiskeyCard
           ]
         }))
       }
@@ -94,7 +112,7 @@ export default class HomePage extends React.Component {
                                 <Grid container>
                                     <Grid item sm={6} style={{marginInlineStart:20}}>
                                         <CreateDialog 
-                                            onCreate={this.onCreate}
+                                            onCreate={this.handleSubmit}
                                             index={deck.length}
                                         />
                                     </Grid>
@@ -104,13 +122,13 @@ export default class HomePage extends React.Component {
                                         </Fab>
                                     </Grid>
                                 </Grid>
-                                {deck.map(({ Idx, Name }) =>
+                                {deck.map(({ idx, name }) =>
                                     <ListItem 
-                                        key={Idx}
+                                        key={idx}
                                         button
-                                        onClick={() => this.handleListClick(Idx)}
+                                        onClick={() => this.handleListClick(idx)}
                                     >
-                                        <ListItemText primary={Name} />
+                                        <ListItemText primary={name} />
                                     </ListItem>
                                 )}
                             </List>

@@ -14,17 +14,40 @@ export default class WhiskeyCard extends React.Component {
                 <Card style={{maxWidth:500}}>
                     <CardContent>
                         <Typography gutterBottom variant="headline" component="h6" style={{display: 'inline-block', paddingInlineEnd:50}}>
-                            {this.props.card.Name}
+                            {this.props.card.name}
                         </Typography>
                         <Typography gutterBottom variant="headline" component="h6" style={{display: 'inline-block'}}>
-                            {this.props.card.Brand}
+                            {this.props.card.company}
                         </Typography>
                     </CardContent>
                     <CardMedia
                         style={{height:0, paddingTop: '56.25%'}}
                         image={require('../img/whiskedinlogo.png')}
                         title="Whiskedin Logo"
-                        />
+                    />
+                    <CardContent>
+                        <Typography gutterBottom variant="headline" component="h6" style={{display: 'inline-block', paddingInlineEnd:50}}>
+                            {this.props.card.type}
+                        </Typography>
+                        <Typography gutterBottom variant="headline" component="h6" style={{display: 'inline-block'}}>
+                            {this.props.card.age}
+                        </Typography>
+                    </CardContent>
+                    <CardContent>
+                        <Typography gutterBottom variant="headline" component="h6" style={{display: 'inline-block', paddingInlineEnd:50}}>
+                            {this.props.card.origin}
+                        </Typography>
+                        <Typography gutterBottom variant="headline" component="h6" style={{display: 'inline-block'}}>
+                            {this.props.card.flavor}
+                        </Typography>
+                        <Typography gutterBottom variant="headline" component="h6" >
+                            {this.props.card.description}
+                        </Typography>
+                        <Typography gutterBottom variant="headline" component="h6" >
+                            {this.props.card.rating}
+                        </Typography>
+
+                    </CardContent>
                     <CardActions style={{justifyContent: 'center'}}>
                         <Button size="small" color="primary" >
                         Share

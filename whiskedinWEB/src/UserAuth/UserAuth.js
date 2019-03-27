@@ -20,6 +20,7 @@ import whisk from '../img/whiskedinlogo.png';
 
 import API_URL from '../index'
 
+
 export default class UserAuth extends Component {
 
     constructor(props) {
@@ -63,7 +64,7 @@ export default class UserAuth extends Component {
         data.append('password', this.state.password);
 
         // Contacting API to validate user password
-        axios.post(API_URL + `/login`, data, {
+        axios.post("https://whiskedin.herokuapp.com" + `/login`, data, {
             headers: {'Content-Type': 'application/json',}
         })
             .then(res => {
@@ -89,7 +90,7 @@ export default class UserAuth extends Component {
         data.append('password', this.state.password);
 
         // Contacting api to add new user
-        axios.post(API_URL + `/register`, data, {
+        axios.post("https://whiskedin.herokuapp.com" + `/register`, data, {
             headers: {'Content-Type': 'application/json',}
         })
             .then(res => {

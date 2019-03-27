@@ -25,8 +25,14 @@ export default withStyles(styles)  (class extends Component {
     state ={
         open: false,
         whiskeyCard: {
-            Name: '',
-            Brand: ''
+            name: '',
+            company: '',
+            type: '',
+            age: '',
+            origin: '',
+            flavor: '',
+            description: '',
+            rating: ''
         }
     }
 
@@ -49,23 +55,30 @@ export default withStyles(styles)  (class extends Component {
         //TODO: validate
 
         const { whiskeyCard } = this.state
+        whiskeyCard.age = parseInt(whiskeyCard.age)
+        whiskeyCard.rating = parseInt(whiskeyCard.rating)
 
         this.props.onCreate({
             ...whiskeyCard,
-            Idx: this.props.index
         })
 
         this.setState({
             open: false,
-            exercise: {
-                title: '',
-                description: ''
+            whiskeyCard: {
+                name: '',
+                company: '',
+                type: '',
+                age: '',
+                origin: '',
+                flavor: '',
+                description: '',
+                rating: ''
             }
         })
     }
 
     render() {
-        const { open, whiskeyCard: { name, brand } } = this.state,
+        const { open, whiskeyCard: { name, company, type, age, origin, flavor, description, rating } } = this.state,
             { classes } = this.props
 
         return (
@@ -88,15 +101,65 @@ export default withStyles(styles)  (class extends Component {
                             <TextField
                                 label="Name"
                                 value={name}
-                                onChange={this.handleChange('Name')}
+                                onChange={this.handleChange('name')}
                                 margin="normal"
                                 className={classes.FormControl}
                             />
                             <br/>
                             <TextField
-                                label="Brand"
-                                value={brand}
-                                onChange={this.handleChange('Brand')}
+                                label="Company"
+                                value={company}
+                                onChange={this.handleChange('company')}
+                                margin="normal"
+                                className={classes.FormControl}
+                            />
+                            <br/>
+                            <TextField
+                                label="Type"
+                                value={type}
+                                onChange={this.handleChange('type')}
+                                margin="normal"
+                                className={classes.FormControl}
+                            />
+                            <br/>
+                            <TextField
+                                label="Age"
+                                value={age}
+                                onChange={this.handleChange('age')}
+                                margin="normal"
+                                className={classes.FormControl}
+                            />
+                            <br/>
+                            <TextField
+                                label="Origin"
+                                value={origin}
+                                onChange={this.handleChange('origin')}
+                                margin="normal"
+                                className={classes.FormControl}
+                            />
+                            <br/>
+                            <TextField
+                                label="Flavor"
+                                value={flavor}
+                                onChange={this.handleChange('flavor')}
+                                margin="normal"
+                                className={classes.FormControl}
+                            />
+                            <br/>
+                            <TextField
+                                multiline
+                                rows='3'
+                                label="Description"
+                                value={description}
+                                onChange={this.handleChange('description')}
+                                margin="normal"
+                                className={classes.FormControl}
+                            />
+                            <br/>
+                            <TextField
+                                label="Rating"
+                                value={rating}
+                                onChange={this.handleChange('rating')}
                                 margin="normal"
                                 className={classes.FormControl}
                             />
@@ -105,7 +168,7 @@ export default withStyles(styles)  (class extends Component {
                     <DialogActions>
                         <Button 
                             color="primary"
-                            variant='raised'
+                            variant='contained'
                             onClick={this.handleSubmit}
                         >
                             Create

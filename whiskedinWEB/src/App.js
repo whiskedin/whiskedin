@@ -18,7 +18,6 @@ class App extends Component {
         <div>
           <Route exact path="/" component={UserAuth}/>
           <Route exact path="/homepage" component={HomePage}/>
-          <Route exact path="/editpage" component={EditPage}/>
         </div>
     );
   }
