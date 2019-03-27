@@ -36,11 +36,25 @@ export default class HomePage extends React.Component {
         let config = {'Authorization': 'Bearer '.concat(JSON.parse(localStorage.getItem('user')))};
         console.log(config.Authorization)
         axios.get("https://whiskedin.herokuapp.com" + "/whiskies", { headers: config }).then(res => {
-            console.log(res)
+            console.log(res.data)
+
+            let whiskeys = res.data.whiskies
+            whiskeys.map( whiskey => {
+                whiskey = {
+                    ...whiskey,
+                    idx: this.state.deck.length
+                } 
+                this.setState(({deck}) => ({
+                    deck: [
+                    ...deck,
+                    whiskey
+                  ]
+                }))
+            })
+
+            console.log(this.state.deck)
         })
     }
-
-    
 
     handleNext() {
         const index = this.state.currIndex + 1
@@ -70,8 +84,7 @@ export default class HomePage extends React.Component {
 
         console.log(whiskey)
 
-        let config = {'Authorization': 'Bearer '.concat(JSON.parse(localStorage.getItem('user'))),
-                        'Content-Type': 'application/x-www-form-urlencoded'};
+        let config = {'Authorization': 'Bearer '.concat(JSON.parse(localStorage.getItem('user')))};
         axios.post("https://whiskedin.herokuapp.com" + "/whiskies", whiskey, { headers: config })
             .then(res => {
                 console.log(res)
