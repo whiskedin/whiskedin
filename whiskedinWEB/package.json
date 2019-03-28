@@ -35,6 +35,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "mocha": "^6.0.2"
+    "mocha": "^6.0.2",
+    "start-server-and-test": "^1.7.12"
   }
 }
