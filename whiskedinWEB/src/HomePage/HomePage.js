@@ -95,10 +95,15 @@ export default class HomePage extends React.Component {
   
     handleExerciseEdit = whiskey => {
 
+        let editedWhiskey = {...whiskey}
+
+        delete editedWhiskey.created_at
+        delete editedWhiskey.created_by
         console.log(whiskey)
+        console.log(editedWhiskey)
 
         let config = {'Authorization': 'Bearer '.concat(JSON.parse(localStorage.getItem('user')))};
-        axios.put("https://whiskedin.herokuapp.com" + "/whiskies", whiskey, { headers: config })
+        axios.put("https://whiskedin.herokuapp.com" + "/whiskies", editedWhiskey, { headers: config })
             .then(res => {
                 console.log(res)
             })

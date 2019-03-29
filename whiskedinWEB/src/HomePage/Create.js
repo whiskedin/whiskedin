@@ -99,6 +99,7 @@ export default withStyles(styles)  (class extends Component {
                         </DialogContentText>
                         <form>
                             <TextField
+                                id='id_name_create'
                                 label="Name"
                                 value={name}
                                 onChange={this.handleChange('name')}
@@ -107,6 +108,7 @@ export default withStyles(styles)  (class extends Component {
                             />
                             <br/>
                             <TextField
+                                id='id_company_create'
                                 label="Company"
                                 value={company}
                                 onChange={this.handleChange('company')}
@@ -115,6 +117,7 @@ export default withStyles(styles)  (class extends Component {
                             />
                             <br/>
                             <TextField
+                                id='id_type_create'
                                 label="Type"
                                 value={type}
                                 onChange={this.handleChange('type')}
@@ -123,6 +126,7 @@ export default withStyles(styles)  (class extends Component {
                             />
                             <br/>
                             <TextField
+                                id='id_age_create'
                                 label="Age"
                                 value={age}
                                 onChange={this.handleChange('age')}
@@ -131,6 +135,7 @@ export default withStyles(styles)  (class extends Component {
                             />
                             <br/>
                             <TextField
+                                id='id_origin_create'
                                 label="Origin"
                                 value={origin}
                                 onChange={this.handleChange('origin')}
@@ -139,6 +144,7 @@ export default withStyles(styles)  (class extends Component {
                             />
                             <br/>
                             <TextField
+                                id='id_flavor_create'
                                 label="Flavor"
                                 value={flavor}
                                 onChange={this.handleChange('flavor')}
@@ -147,6 +153,7 @@ export default withStyles(styles)  (class extends Component {
                             />
                             <br/>
                             <TextField
+                                id='id_description_create'
                                 multiline
                                 rows='3'
                                 label="Description"
@@ -157,6 +164,7 @@ export default withStyles(styles)  (class extends Component {
                             />
                             <br/>
                             <TextField
+                                id='id_rating_create'
                                 label="Rating"
                                 value={rating}
                                 onChange={this.handleChange('rating')}
@@ -167,6 +175,7 @@ export default withStyles(styles)  (class extends Component {
                     </DialogContent>
                     <DialogActions>
                         <Button 
+                        id='id_button_create'
                             color="primary"
                             variant='contained'
                             onClick={this.handleSubmit}
