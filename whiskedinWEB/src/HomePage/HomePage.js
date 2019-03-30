@@ -42,18 +42,29 @@ export default class HomePage extends React.Component {
                 console.log("No motherfucker");
             } else {
 
-                this.setState({loaded: false, deck: []})
+                let i = 0
 
                 whiskeys.map(whiskey => {
-                    whiskey = {...whiskey,
-                        idx: this.state.deck.length}
-                    
-                    this.setState(({deck}) => ({
-                        deck: [
-                        ...deck,
-                        whiskey
-                        ]
-                    }))
+                    if(i === 0){
+                        whiskey = {...whiskey,
+                            idx: i}
+                        this.setState(({deck}) => ({
+                            deck: [
+                            whiskey
+                            ]
+                        }))
+                        i++
+                    } else {
+                        whiskey = {...whiskey,
+                            idx: i}
+                        this.setState(({deck}) => ({
+                            deck: [
+                            ...deck,
+                            whiskey
+                            ]
+                        }))
+                        i++
+                    }
                 })
 
                 this.setState({loaded:true})
