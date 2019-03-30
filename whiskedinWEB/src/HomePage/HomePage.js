@@ -2,8 +2,7 @@ import React, { Fragment } from 'react';
 import WhiskeyCard from'./WhiskeyCard'
 import { AppBar, Toolbar, Grid, Paper, List, ListItem, ListItemText, ListItemSecondaryAction, Typography, Button, TextField } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
-import { ArrowForward, ArrowBack, Edit} from '@material-ui/icons';
-import Fab from '@material-ui/core/Fab';
+import { ArrowForward, ArrowBack} from '@material-ui/icons';
 import CreateDialog from './Create'
 import axios from 'axios'
 import Form from './Form'
@@ -101,21 +100,15 @@ export default class HomePage extends React.Component {
         console.log(whiskey)
 
         let config = {'Authorization': 'Bearer '.concat(JSON.parse(localStorage.getItem('user')))};
+        // eslint-disable-next-line no-useless-concat
         axios.post("https://whiskedin.herokuapp.com" + "/whiskies", whiskey, { headers: config })
             .then(res => {
                 console.log(res)
             })
 
-        const whiskeyCard = {
-            ...whiskey,
-            idx: this.state.deck.length
-        }   
-        this.setState(({deck}) => ({
-            deck: [
-            ...deck,
-            whiskeyCard
-          ]
-        }))
+        this.getWhiskeys() 
+        
+
       }
   
     handleExerciseEdit = whiskey => {
@@ -130,6 +123,7 @@ export default class HomePage extends React.Component {
         console.log(editedWhiskey)
 
         let config = {'Authorization': 'Bearer '.concat(JSON.parse(localStorage.getItem('user')))};
+        // eslint-disable-next-line no-useless-concat
         axios.put("https://whiskedin.herokuapp.com" + "/whiskies", editedWhiskey, { headers: config })
             .then(res => {
                 console.log(res)
@@ -152,14 +146,14 @@ export default class HomePage extends React.Component {
         const whiskeyCard= this.state.deck[this.state.currIndex]
         const deck= this.state.deck
 
-        if(!this.state.loaded){
-            return (
-                <div>
-                    <h1> Loading </h1>
-                </div>
-            )
-        }
-        else {
+        // if(!this.state.loaded){
+        //     return (
+        //         <div>
+        //             <h1> Loading </h1>
+        //         </div>
+        //     )
+        // }
+        //else {
         return (
             <div>
                 <Fragment>
@@ -214,6 +208,7 @@ export default class HomePage extends React.Component {
                     </Grid>
                     <Grid item sm>
                         <div>
+                            {this.state.loaded ? 
                             <table>
                                 <tbody>
                                     <tr>
@@ -241,11 +236,11 @@ export default class HomePage extends React.Component {
                                     </tr>
                                 </tbody>
                             </table>
+                            : <p> No whiskeys. Please add one to your list :). </p>}
                         </div>
                     </Grid>
                 </Grid>
             </div>
         )
     }
-}
 }
