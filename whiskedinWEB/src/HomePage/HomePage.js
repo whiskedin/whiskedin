@@ -2,8 +2,7 @@ import React, { Fragment } from 'react';
 import WhiskeyCard from'./WhiskeyCard'
 import { AppBar, Toolbar, Grid, Paper, List, ListItem, ListItemText, ListItemSecondaryAction, Typography, Button, TextField } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
-import { ArrowForward, ArrowBack, Edit} from '@material-ui/icons';
-import Fab from '@material-ui/core/Fab';
+import { ArrowForward, ArrowBack} from '@material-ui/icons';
 import CreateDialog from './Create'
 import axios from 'axios'
 import Form from './Form'
@@ -12,13 +11,13 @@ export default class HomePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loaded: false,
             deck: [],
             currIndex: 0
         };
 
         this.handleNext = this.handleNext.bind(this);
         this.handleBack = this.handleBack.bind(this);
+        this.empty = true;
     }
 
     componentDidMount(){
@@ -39,8 +38,9 @@ export default class HomePage extends React.Component {
 
             let whiskeys = res.data.whiskies
             if (whiskeys.length === 0) {
-                console.log("No motherfucker");
-            } else {
+                console.log("No dude");
+            }
+            else {
 
                 let i = 0
 
@@ -66,8 +66,8 @@ export default class HomePage extends React.Component {
                         i++
                     }
                 })
+                this.empty = false;
 
-                this.setState({loaded:true})
             }
         })
     }
@@ -103,7 +103,8 @@ export default class HomePage extends React.Component {
         let config = {'Authorization': 'Bearer '.concat(JSON.parse(localStorage.getItem('user')))};
         axios.post("https://whiskedin.herokuapp.com" + "/whiskies", whiskey, { headers: config })
             .then(res => {
-                console.log(res)
+                console.log(res);
+                this.getWhiskeys();
             })
 
         const whiskeyCard = {
@@ -148,18 +149,9 @@ export default class HomePage extends React.Component {
     }
 
     render() {
-        console.log(this.state)
-        const whiskeyCard= this.state.deck[this.state.currIndex]
-        const deck= this.state.deck
-
-        if(!this.state.loaded){
-            return (
-                <div>
-                    <h1> Loading </h1>
-                </div>
-            )
-        }
-        else {
+        console.log(this.state);
+        const whiskeyCard= this.state.deck[this.state.currIndex];
+        const deck= this.state.deck;
         return (
             <div>
                 <Fragment>
@@ -213,39 +205,42 @@ export default class HomePage extends React.Component {
                         </Paper>
                     </Grid>
                     <Grid item sm>
+
                         <div>
-                            <table>
-                                <tbody>
+                            {this.empty ?
+                                (<p>No whiskies</p>) :
+                                (<table>
+                                    <tbody>
                                     <tr>
                                         <td>
-                                            <IconButton 
+                                            <IconButton
                                                 id-='id_back_button'
                                                 onClick={this.handleBack}
                                             >
-                                                <ArrowBack />
+                                                <ArrowBack/>
                                             </IconButton>
                                         </td>
                                         <td>
-                                                <WhiskeyCard 
-                                                    id='id_whisk_card'
-                                                    card={whiskeyCard}/>
+                                            <WhiskeyCard
+                                                id='id_whisk_card'
+                                                card={whiskeyCard}/>
                                         </td>
                                         <td>
-                                            <IconButton 
+                                            <IconButton
                                                 id='id_next_button'
                                                 onClick={this.handleNext}
                                             >
-                                                <ArrowForward />
+                                                <ArrowForward/>
                                             </IconButton>
                                         </td>
                                     </tr>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>)
+                            }
                         </div>
                     </Grid>
                 </Grid>
             </div>
         )
     }
-}
 }
