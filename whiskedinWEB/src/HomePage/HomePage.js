@@ -99,7 +99,8 @@ export default class HomePage extends React.Component {
 
         delete editedWhiskey.created_at
         delete editedWhiskey.created_by
-        console.log(whiskey)
+        delete editedWhiskey.image
+
         console.log(editedWhiskey)
 
         let config = {'Authorization': 'Bearer '.concat(JSON.parse(localStorage.getItem('user')))};
@@ -107,7 +108,7 @@ export default class HomePage extends React.Component {
             .then(res => {
                 console.log(res)
             })
-
+``
         // this.setState(({deck}) => ({
             
         // }))
