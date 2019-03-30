@@ -41,8 +41,22 @@ export default class HomePage extends React.Component {
             if (whiskeys.length === 0) {
                 console.log("No motherfucker");
             } else {
-                this.setState({deck: whiskeys,
-                    loaded:true})
+
+                this.setState({loaded: false, deck: []})
+
+                whiskeys.map(whiskey => {
+                    whiskey = {...whiskey,
+                        idx: this.state.deck.length}
+                    
+                    this.setState(({deck}) => ({
+                        deck: [
+                        ...deck,
+                        whiskey
+                        ]
+                    }))
+                })
+
+                this.setState({loaded:true})
             }
         })
     }
@@ -100,6 +114,7 @@ export default class HomePage extends React.Component {
         delete editedWhiskey.created_at
         delete editedWhiskey.created_by
         delete editedWhiskey.image
+        delete editedWhiskey.idx
 
         console.log(editedWhiskey)
 
@@ -108,7 +123,6 @@ export default class HomePage extends React.Component {
             .then(res => {
                 console.log(res)
             })
-``
         // this.setState(({deck}) => ({
             
         // }))
