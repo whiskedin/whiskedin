@@ -65,7 +65,7 @@ export default class UserAuth extends Component {
 
         // Contacting API to validate user password
         // eslint-disable-next-line no-useless-concat
-        axios.post("https://whiskedin.herokuapp.com" + `/login`, data, {
+        axios.post(API_URL + `/login`, data, {
             headers: {'Content-Type': 'application/json',}
         })
             .then(res => {
@@ -92,7 +92,7 @@ export default class UserAuth extends Component {
 
         // Contacting api to add new user
         // eslint-disable-next-line no-useless-concat
-        axios.post("https://whiskedin.herokuapp.com" + `/register`, data, {
+        axios.post(API_URL + `/register`, data, {
             headers: {'Content-Type': 'application/json',}
         })
             .then(res => {

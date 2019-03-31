@@ -11,7 +11,7 @@ export default class WhiskeyCard extends React.Component {
     render(){
         return (
             <div>
-                <Card style={{maxWidth:500}}>
+                <Card style={{maxWidth:500}} id="id_whisk_card">
                     <CardContent>
                         <Typography id='id_name' gutterBottom variant="headline" component="h6" style={{display: 'inline-block', paddingInlineEnd:50}}>
                             {this.props.card.name}

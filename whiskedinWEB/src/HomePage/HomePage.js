@@ -6,6 +6,7 @@ import { ArrowForward, ArrowBack} from '@material-ui/icons';
 import CreateDialog from './Create'
 import axios from 'axios'
 import Form from './Form'
+import API_URL from '../index'
 
 export default class HomePage extends React.Component {
     constructor(props) {
@@ -27,16 +28,24 @@ export default class HomePage extends React.Component {
     getWhiskeys = (search) => {
 
         let get = ''
-        let config = {'Authorization': 'Bearer '.concat(JSON.parse(localStorage.getItem('user')))};
+        var config = {};
+        if (API_URL === "https://whiskedin.herokuapp.com"){
+            config = {'Authorization': 'Bearer '.concat(JSON.parse(localStorage.getItem('user')))};
+        }
         if(search){
             get = "/whiskies?s=" + search
         }
         else{
             get = '/whiskies'
         }
-        axios.get("https://whiskedin.herokuapp.com" + get, { headers: config }).then(res => {
-
-            let whiskeys = res.data.whiskies
+        axios.get(API_URL + get, { headers: config }).then(res => {
+            var whiskeys = [];
+            if (API_URL === "https://whiskedin.herokuapp.com") {
+                whiskeys = res.data.whiskies;
+            }
+            else{
+                whiskeys = res.data;
+            }
             if (whiskeys.length === 0) {
                 console.log("No dude");
             }
@@ -112,7 +121,7 @@ export default class HomePage extends React.Component {
 
         let config = {'Authorization': 'Bearer '.concat(JSON.parse(localStorage.getItem('user')))};
         // eslint-disable-next-line no-useless-concat
-        axios.post("https://whiskedin.herokuapp.com" + "/whiskies", whiskey, { headers: config })
+        axios.post(API_URL + "/whiskies", whiskey, { headers: config })
             .then(res => {
                 console.log(res)
                 if(document.getElementById("id_error") !== null) {
@@ -146,7 +155,7 @@ export default class HomePage extends React.Component {
 
         let config = {'Authorization': 'Bearer '.concat(JSON.parse(localStorage.getItem('user')))};
         // eslint-disable-next-line no-useless-concat
-        axios.put("https://whiskedin.herokuapp.com" + "/whiskies", editedWhiskey, { headers: config })
+        axios.put(API_URL + "/whiskies", editedWhiskey, { headers: config })
             .then(res => {
                 console.log(res);
                 if(document.getElementById("id_error") !== null) {
@@ -203,7 +212,7 @@ export default class HomePage extends React.Component {
                             <Typography variant="h6" color="inherit" style={{flexGrow: 1}}>
                                 WhiskedIn
                             </Typography>
-                            <Button color="inherit">Logout</Button>
+                            <Button color="inherit" id="id_logout_button">Logout</Button>
                         </Toolbar>
                     </AppBar>
                 </Fragment>
@@ -255,7 +264,7 @@ export default class HomePage extends React.Component {
                                     <tr>
                                         <td>
                                             <IconButton 
-                                                id-='id_back_button'
+                                                id='id_back_button'
                                                 onClick={this.handleBack}
                                             >
                                                 <ArrowBack />
@@ -263,7 +272,6 @@ export default class HomePage extends React.Component {
                                         </td>
                                         <td>
                                             <WhiskeyCard
-                                                id='id_whisk_card'
                                                 card={whiskeyCard}/>
                                         </td>
                                         <td>
