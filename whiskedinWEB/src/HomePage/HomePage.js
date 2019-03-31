@@ -119,13 +119,13 @@ export default class HomePage extends React.Component {
                     error_el.remove();
                 }
 
-                whiskey = {...whiskey,
+                const newWhiskey = {...res.data.whisky,
                     idx: this.state.deck.length}
 
                 this.setState(({deck}) => ({
                     deck: [
                       ...deck,
-                      res
+                      newWhiskey
                     ]
                 }))
             }).catch( res => {
