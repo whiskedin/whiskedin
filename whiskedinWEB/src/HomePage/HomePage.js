@@ -28,7 +28,7 @@ export default class HomePage extends React.Component {
     getWhiskeys = (search) => {
 
         let get = ''
-        var config = {};
+        let config = {};
         if (API_URL === "https://whiskedin.herokuapp.com"){
             config = {'Authorization': 'Bearer '.concat(JSON.parse(localStorage.getItem('user')))};
         }
@@ -39,7 +39,7 @@ export default class HomePage extends React.Component {
             get = '/whiskies'
         }
         axios.get(API_URL + get, { headers: config }).then(res => {
-            var whiskeys = [];
+            let whiskeys = [];
             if (API_URL === "https://whiskedin.herokuapp.com") {
                 whiskeys = res.data.whiskies;
             }
@@ -109,8 +109,6 @@ export default class HomePage extends React.Component {
 
         console.log(whiskey)
 
-        this.setState({loaded: false, deck: []})
-
         let config = {'Authorization': 'Bearer '.concat(JSON.parse(localStorage.getItem('user')))};
         // eslint-disable-next-line no-useless-concat
         axios.post(API_URL + "/whiskies", whiskey, { headers: config })
@@ -120,7 +118,12 @@ export default class HomePage extends React.Component {
                     var error_el = document.getElementById("id_error");
                     error_el.remove();
                 }
-                this.getWhiskeys()
+                this.setState(({deck}) => ({
+                    deck: [
+                      ...deck,
+                      res
+                    ]
+                }))
             }).catch( res => {
                 if(document.getElementById("id_error") === null) {
                     var error_el = document.createElement("err");
@@ -152,6 +155,12 @@ export default class HomePage extends React.Component {
                     var error_el = document.getElementById("id_error");
                     error_el.remove();
                 }
+                this.setState(({ deck }) => ({
+                    deck: [
+                        ...deck.filter(whisk => whisk.idx !== whiskey.idx),
+                        whiskey
+                    ]
+                }))
             }).catch( res => {
             if(document.getElementById("id_error") === null) {
                 var error_el = document.createElement("err");
@@ -161,13 +170,6 @@ export default class HomePage extends React.Component {
                 parent.appendChild(error_el);
             }
         });
-        
-        this.setState(({ deck }) => ({
-            deck: [
-                ...deck.filter(whisk => whisk.idx !== whiskey.idx),
-                whiskey
-            ]
-            }))
         
         // this.setState(({deck}) => ({
         // }))
