@@ -65,9 +65,7 @@ export default class UserAuth extends Component {
 
         // Contacting API to validate user password
         // eslint-disable-next-line no-useless-concat
-        axios.post(API_URL + `/login`, data, {
-            headers: {'Content-Type': 'application/json',}
-        })
+        axios.post(API_URL + `/login`, data)
             .then(res => {
                 if (res.data["access_token"]) {
                     localStorage.setItem('user', JSON.stringify(res.data["access_token"]));
@@ -92,9 +90,7 @@ export default class UserAuth extends Component {
 
         // Contacting api to add new user
         // eslint-disable-next-line no-useless-concat
-        axios.post(API_URL + `/register`, data, {
-            headers: {'Content-Type': 'application/json',}
-        })
+        axios.post(API_URL + `/register`, data)
             .then(res => {
                 console.log(res);
                 console.log(res.data);
