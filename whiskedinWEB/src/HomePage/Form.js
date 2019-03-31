@@ -65,6 +65,11 @@ export default withStyles(styles)  (class extends Component {
         })
     }
 
+    handleEdit = () => {
+        this.handleSubmit()
+        this.handleToggle()
+    }
+
     render() {
         const { open, whiskey: { name, company, type, age, origin, flavor, description, rating } } = this.state,
             { classes } = this.props
@@ -168,7 +173,7 @@ export default withStyles(styles)  (class extends Component {
                             id='id_button_edit'
                             color="primary"
                             variant='contained'
-                            onClick={this.handleSubmit}
+                            onClick={this.handleEdit}
                         >
                             Create
                         </Button>

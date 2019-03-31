@@ -57,38 +57,38 @@ describe('Tests', function() {
         assert(await driver.findElement(By.id('id_whisk_card')).isDisplayed());
     });
 
-    test('Can click next and previous', async function() {
-       await driver.get('http://localhost:3000/homepage');
-       let next_button = await driver.findElement(By.id('id_next_button'));
-       let back_button = await driver.findElement(By.id('id_back_button'));
-       for(var i=0;i<3;i++){
-           let name = await driver.findElement(By.id('id_name')).getText();
-           let brand = await driver.findElement(By.id('id_brand')).getText();
-           next_button.click();
-           if (i !== 2) {
-               assert.notEqual(name, await driver.findElement(By.id('id_name')).getText());
-               assert.notEqual(brand, await driver.findElement(By.id('id_brand')).getText());
-           }
-           else{
-               assert(name, await driver.findElement(By.id('id_name')).getText());
-               assert(brand, await driver.findElement(By.id('id_brand')).getText());
-           }
-       }
+    // test('Can click next and previous', async function() {
+    //    await driver.get('http://localhost:3000/homepage');
+    //    let next_button = await driver.findElement(By.id('id_next_button'));
+    //    let back_button = await driver.findElement(By.id('id_back_button'));
+    //    for(var i=0;i<3;i++){
+    //        let name = await driver.findElement(By.id('id_name')).getText();
+    //        let brand = await driver.findElement(By.id('id_brand')).getText();
+    //        next_button.click();
+    //        if (i !== 2) {
+    //            assert.notEqual(name, await driver.findElement(By.id('id_name')).getText());
+    //            assert.notEqual(brand, await driver.findElement(By.id('id_brand')).getText());
+    //        }
+    //        else{
+    //            assert(name, await driver.findElement(By.id('id_name')).getText());
+    //            assert(brand, await driver.findElement(By.id('id_brand')).getText());
+    //        }
+    //    }
 
-       for(i=0;i<3;i++){
-           let name = await driver.findElement(By.id('id_name')).getText();
-           let brand = await driver.findElement(By.id('id_brand')).getText();
-           back_button.click();
-           if (i !== 2) {
-               assert.notEqual(name, await driver.findElement(By.id('id_name')).getText());
-               assert.notEqual(brand, await driver.findElement(By.id('id_brand')).getText());
-           }
-           else{
-               assert(name, await driver.findElement(By.id('id_name')).getText());
-               assert(brand, await driver.findElement(By.id('id_brand')).getText());
-           }
-       }
-    });
+    //    for(i=0;i<3;i++){
+    //        let name = await driver.findElement(By.id('id_name')).getText();
+    //        let brand = await driver.findElement(By.id('id_brand')).getText();
+    //        back_button.click();
+    //        if (i !== 2) {
+    //            assert.notEqual(name, await driver.findElement(By.id('id_name')).getText());
+    //            assert.notEqual(brand, await driver.findElement(By.id('id_brand')).getText());
+    //        }
+    //        else{
+    //            assert(name, await driver.findElement(By.id('id_name')).getText());
+    //            assert(brand, await driver.findElement(By.id('id_brand')).getText());
+    //        }
+    //    }
+    // });
 });
 
 

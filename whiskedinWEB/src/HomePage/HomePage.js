@@ -99,16 +99,24 @@ export default class HomePage extends React.Component {
 
         console.log(whiskey)
 
+        this.setState({loaded: false})
+
+        const newWhiskey = {...whiskey, idx: this.state.deck.length}
+        this.setState(({deck}) => ({
+            deck: [
+            ...deck,
+            newWhiskey
+            ],
+        }))
+
         let config = {'Authorization': 'Bearer '.concat(JSON.parse(localStorage.getItem('user')))};
         // eslint-disable-next-line no-useless-concat
         axios.post("https://whiskedin.herokuapp.com" + "/whiskies", whiskey, { headers: config })
             .then(res => {
                 console.log(res)
             })
-
-        this.getWhiskeys() 
         
-
+        this.getWhiskeys()
       }
   
     handleExerciseEdit = whiskey => {
@@ -128,8 +136,15 @@ export default class HomePage extends React.Component {
             .then(res => {
                 console.log(res)
             })
+        
+        this.setState(({ deck }) => ({
+            deck: [
+                ...deck.filter(whisk => whisk.idx !== whiskey.idx),
+                whiskey
+            ]
+            }))
+        
         // this.setState(({deck}) => ({
-            
         // }))
     }
 
@@ -190,7 +205,7 @@ export default class HomePage extends React.Component {
                                 </Grid>
                                 {deck.map((whiskey) =>
                                     <ListItem 
-                                        key={whiskey.wid}
+                                        key={whiskey.idx}
                                         button
                                         onClick={() => this.handleListClick(whiskey.idx)}
                                     >
