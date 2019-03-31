@@ -19,7 +19,7 @@
   "scripts": {
     "start": "REACT_APP_API_ENDPOINT=http://5ca01b241afd0600146687f7.mockapi.io react-scripts start",
     "stop": "pkill -signal SIGINT Bops",
-    "build": "react-scripts build",
+    "build": "REACT_APP_API_ENDPOINT=https://whiskedin.herokuapp.com react-scripts build",
     "eject": "react-scripts eject",
     "test": "jest",
     "start-server": "npm start",

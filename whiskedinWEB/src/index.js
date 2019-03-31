@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import {BrowserRouter} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const API_URL = process.env.REACT_APP_API_ENDPOINT || "https://whiskedin.herokuapp.com";
+const API_URL = process.env.REACT_APP_API_ENDPOINT;
 
 export default API_URL;
 

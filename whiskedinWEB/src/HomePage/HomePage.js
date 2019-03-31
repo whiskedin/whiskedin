@@ -275,7 +275,7 @@ export default class HomePage extends React.Component {
                                     </tr>
                                 </tbody>
                             </table>
-                            : <p> No whiskeys. Please add one to your list :). </p>}
+                            : <p id="id_empty_list"> No whiskeys. Please add one to your list :).</p>}
                         </div>
                     </Grid>
                 </Grid>
