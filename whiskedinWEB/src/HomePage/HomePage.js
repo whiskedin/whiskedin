@@ -38,8 +38,9 @@ export default class HomePage extends React.Component {
 
             let whiskeys = res.data.whiskies
             if (whiskeys.length === 0) {
-                console.log("No motherfucker");
-            } else {
+                console.log("No dude");
+            }
+            else {
 
                 let i = 0
 
@@ -114,11 +115,24 @@ export default class HomePage extends React.Component {
         axios.post("https://whiskedin.herokuapp.com" + "/whiskies", whiskey, { headers: config })
             .then(res => {
                 console.log(res)
-            })
-        
+                if(document.getElementById("id_error") !== null) {
+                    var error_el = document.getElementById("id_error");
+                    error_el.remove();
+                }
+            }).catch( res => {
+                if(document.getElementById("id_error") === null) {
+                    var error_el = document.createElement("err");
+                    error_el.id = "id_error";
+                    error_el.innerText = "Error occured please try again";
+                    var parent = document.getElementById("id_whisk_div");
+                    parent.appendChild(error_el);
+                }
+        });
+
         this.getWhiskeys()
-      }
-  
+        
+    }
+
     handleExerciseEdit = whiskey => {
 
         let editedWhiskey = {...whiskey}
@@ -134,8 +148,20 @@ export default class HomePage extends React.Component {
         // eslint-disable-next-line no-useless-concat
         axios.put("https://whiskedin.herokuapp.com" + "/whiskies", editedWhiskey, { headers: config })
             .then(res => {
-                console.log(res)
-            })
+                console.log(res);
+                if(document.getElementById("id_error") !== null) {
+                    var error_el = document.getElementById("id_error");
+                    error_el.remove();
+                }
+            }).catch( res => {
+            if(document.getElementById("id_error") === null) {
+                var error_el = document.createElement("err");
+                error_el.id = "id_error";
+                error_el.innerText = "Error occured please try again";
+                var parent = document.getElementById("id_whisk_div");
+                parent.appendChild(error_el);
+            }
+        });
         
         this.setState(({ deck }) => ({
             deck: [
@@ -222,7 +248,7 @@ export default class HomePage extends React.Component {
                         </Paper>
                     </Grid>
                     <Grid item sm>
-                        <div>
+                        <div id="id_whisk_div">
                             {this.state.loaded ? 
                             <table>
                                 <tbody>
@@ -236,16 +262,16 @@ export default class HomePage extends React.Component {
                                             </IconButton>
                                         </td>
                                         <td>
-                                                <WhiskeyCard 
-                                                    id='id_whisk_card'
-                                                    card={whiskeyCard}/>
+                                            <WhiskeyCard
+                                                id='id_whisk_card'
+                                                card={whiskeyCard}/>
                                         </td>
                                         <td>
                                             <IconButton 
                                                 id='id_next_button'
                                                 onClick={this.handleNext}
                                             >
-                                                <ArrowForward />
+                                                <ArrowForward/>
                                             </IconButton>
                                         </td>
                                     </tr>
