@@ -79,7 +79,7 @@ export default withStyles(styles)  (class extends Component {
 
         return (
             <Fragment>
-                <Fab aria-label="Add" onClick={this.handleToggle}>
+                <Fab aria-label="Add" onClick={this.handleToggle} id="id_add_button">
                     <AddIcon />
                 </Fab>
 
