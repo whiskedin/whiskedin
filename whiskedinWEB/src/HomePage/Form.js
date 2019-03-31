@@ -77,7 +77,7 @@ export default withStyles(styles)  (class extends Component {
         return (
             <Fragment>
                 <ListItemSecondaryAction>
-                    <IconButton onClick={this.handleToggle}>
+                    <IconButton name="edit" onClick={this.handleToggle}>
                         <Edit/>
                     </IconButton>
                 </ListItemSecondaryAction>

@@ -235,6 +235,7 @@ export default class HomePage extends React.Component {
                                         key={whiskey.idx}
                                         button
                                         onClick={() => this.handleListClick(whiskey.idx)}
+                                        name="whisk"
                                     >
                                         <ListItemText primary={whiskey.name} />
                                         <ListItemSecondaryAction>
