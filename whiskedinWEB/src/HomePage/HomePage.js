@@ -118,6 +118,10 @@ export default class HomePage extends React.Component {
                     var error_el = document.getElementById("id_error");
                     error_el.remove();
                 }
+
+                whiskey = {...whiskey,
+                    idx: this.state.deck.length}
+
                 this.setState(({deck}) => ({
                     deck: [
                       ...deck,
