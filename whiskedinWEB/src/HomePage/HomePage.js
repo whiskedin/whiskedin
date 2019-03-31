@@ -101,22 +101,16 @@ export default class HomePage extends React.Component {
         console.log(whiskey)
 
         let config = {'Authorization': 'Bearer '.concat(JSON.parse(localStorage.getItem('user')))};
+        // eslint-disable-next-line no-useless-concat
         axios.post("https://whiskedin.herokuapp.com" + "/whiskies", whiskey, { headers: config })
             .then(res => {
                 console.log(res);
                 this.getWhiskeys();
             })
 
-        const whiskeyCard = {
-            ...whiskey,
-            idx: this.state.deck.length
-        }   
-        this.setState(({deck}) => ({
-            deck: [
-            ...deck,
-            whiskeyCard
-          ]
-        }))
+        this.getWhiskeys()
+
+
       }
   
     handleExerciseEdit = whiskey => {
@@ -131,6 +125,7 @@ export default class HomePage extends React.Component {
         console.log(editedWhiskey)
 
         let config = {'Authorization': 'Bearer '.concat(JSON.parse(localStorage.getItem('user')))};
+        // eslint-disable-next-line no-useless-concat
         axios.put("https://whiskedin.herokuapp.com" + "/whiskies", editedWhiskey, { headers: config })
             .then(res => {
                 console.log(res)
@@ -149,9 +144,18 @@ export default class HomePage extends React.Component {
     }
 
     render() {
-        console.log(this.state);
-        const whiskeyCard= this.state.deck[this.state.currIndex];
-        const deck= this.state.deck;
+        console.log(this.state)
+        const whiskeyCard= this.state.deck[this.state.currIndex]
+        const deck= this.state.deck
+
+        // if(!this.state.loaded){
+        //     return (
+        //         <div>
+        //             <h1> Loading </h1>
+        //         </div>
+        //     )
+        // }
+        //else {
         return (
             <div>
                 <Fragment>
@@ -207,10 +211,9 @@ export default class HomePage extends React.Component {
                     <Grid item sm>
 
                         <div>
-                            {this.empty ?
-                                (<p>No whiskies</p>) :
-                                (<table>
-                                    <tbody>
+                            {this.state.loaded ?
+                            <table>
+                                <tbody>
                                     <tr>
                                         <td>
                                             <IconButton
@@ -234,9 +237,9 @@ export default class HomePage extends React.Component {
                                             </IconButton>
                                         </td>
                                     </tr>
-                                    </tbody>
-                                </table>)
-                            }
+                                </tbody>
+                            </table>
+                            : <p> No whiskeys. Please add one to your list :). </p>}
                         </div>
                     </Grid>
                 </Grid>
