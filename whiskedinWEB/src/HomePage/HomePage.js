@@ -100,15 +100,7 @@ export default class HomePage extends React.Component {
 
         console.log(whiskey)
 
-        this.setState({loaded: false})
-
-        const newWhiskey = {...whiskey, idx: this.state.deck.length}
-        this.setState(({deck}) => ({
-            deck: [
-            ...deck,
-            newWhiskey
-            ],
-        }))
+        this.setState({loaded: false, deck: []})
 
         let config = {'Authorization': 'Bearer '.concat(JSON.parse(localStorage.getItem('user')))};
         // eslint-disable-next-line no-useless-concat
@@ -119,6 +111,7 @@ export default class HomePage extends React.Component {
                     var error_el = document.getElementById("id_error");
                     error_el.remove();
                 }
+                this.getWhiskeys()
             }).catch( res => {
                 if(document.getElementById("id_error") === null) {
                     var error_el = document.createElement("err");
@@ -128,9 +121,6 @@ export default class HomePage extends React.Component {
                     parent.appendChild(error_el);
                 }
         });
-
-        this.getWhiskeys()
-        
     }
 
     handleExerciseEdit = whiskey => {
