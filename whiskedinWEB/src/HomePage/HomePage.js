@@ -53,6 +53,7 @@ export default class HomePage extends React.Component {
 
                 let i = 0
 
+                // eslint-disable-next-line array-callback-return
                 whiskeys.map(whiskey => {
                     if(i === 0){
                         whiskey = {...whiskey,
@@ -205,9 +206,9 @@ export default class HomePage extends React.Component {
         return (
             <div>
                 <Fragment>
-                    <AppBar position="static" style={{marginBottom:10}} >
+                    <AppBar id='id_appbar' position="static" style={{marginBottom:10}} >
                         <Toolbar>
-                            <Typography variant="h6" color="inherit" style={{flexGrow: 1}}>
+                            <Typography id='id_appbar_title' variant="h6" color="inherit" style={{flexGrow: 1}}>
                                 WhiskedIn
                             </Typography>
                             <Button color="inherit" id="id_logout_button">Logout</Button>
@@ -221,7 +222,7 @@ export default class HomePage extends React.Component {
                                 <Grid container>
                                     <Grid item sm={6} style={{marginInlineStart:20}}>
                                         <TextField  
-                                        id="id_searchInput"
+                                        id="id_search_input"
                                         placeholder="Search"
                                         margin="normal"
                                         onChange={this.onSearchInputChange} />
@@ -229,7 +230,6 @@ export default class HomePage extends React.Component {
 
                                     <Grid item sm={3} style={{marginInlineStart:20}}>
                                         <CreateDialog 
-                                            id='id_create_id'
                                             onCreate={this.handleSubmit}
                                             index={deck.length}
                                         />
@@ -239,10 +239,11 @@ export default class HomePage extends React.Component {
                                 {deck.map((whiskey) =>
                                     <ListItem 
                                         key={whiskey.idx}
+                                        id={'id_list_item' + whiskey.idx}
                                         button
                                         onClick={() => this.handleListClick(whiskey.idx)}
                                     >
-                                        <ListItemText primary={whiskey.name} />
+                                        <ListItemText id={'id_list_item_text' + whiskey.idx} primary={whiskey.name} />
                                         <ListItemSecondaryAction>
                                             <Form
                                                 onEdit={this.handleExerciseEdit}
