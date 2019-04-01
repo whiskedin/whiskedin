@@ -14,7 +14,8 @@ export default class HomePage extends React.Component {
         this.state = {
             loaded: false,
             deck: [],
-            currIndex: 0
+            currIndex: 0,
+            empty: true
         };
 
         this.handleNext = this.handleNext.bind(this);
@@ -46,10 +47,6 @@ export default class HomePage extends React.Component {
             else{
                 whiskeys = res.data;
             }
-            if (whiskeys.length === 0) {
-                console.log("No dude");
-            }
-            else {
 
                 let i = 0
 
@@ -76,8 +73,10 @@ export default class HomePage extends React.Component {
                     }
                 })
 
-                this.setState({loaded:true})
+            if(whiskeys.length !== 0){
+                this.setState({empty:false})
             }
+
         })
     }
 
@@ -242,6 +241,7 @@ export default class HomePage extends React.Component {
                                         button
                                         onClick={() => this.handleListClick(whiskey.idx)}
                                         name="whisk"
+                                        id={"id_item_" + whiskey.idx}
                                     >
                                         <ListItemText primary={whiskey.name} />
                                         <ListItemSecondaryAction>
@@ -257,7 +257,7 @@ export default class HomePage extends React.Component {
                     </Grid>
                     <Grid item sm>
                         <div id="id_whisk_div">
-                            {this.state.loaded ? 
+                            {this.state.empty === false ?
                             <table>
                                 <tbody>
                                     <tr>
@@ -284,7 +284,7 @@ export default class HomePage extends React.Component {
                                     </tr>
                                 </tbody>
                             </table>
-                            : <p id="id_empty_list"> No whiskeys. Please add one to your list :).</p>}
+                            : <p id="id_empty_list"> No whiskeys.</p>}
                         </div>
                     </Grid>
                 </Grid>
