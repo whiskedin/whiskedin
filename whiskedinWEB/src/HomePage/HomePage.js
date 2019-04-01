@@ -46,8 +46,9 @@ export default class HomePage extends React.Component {
             else{
                 whiskeys = res.data;
             }
-            if (whiskeys.length === 0) {
-                console.log("No dude");
+
+            if (whiskeys.length === 0){
+                 this.setState({empty: true})
             }
             else {
 
@@ -55,30 +56,34 @@ export default class HomePage extends React.Component {
 
                 // eslint-disable-next-line array-callback-return
                 whiskeys.map(whiskey => {
-                    if(i === 0){
-                        whiskey = {...whiskey,
-                            idx: i}
+                    if (i === 0) {
+                        whiskey = {
+                            ...whiskey,
+                            idx: i
+                        }
                         this.setState(({deck}) => ({
                             deck: [
-                            whiskey
+                                whiskey
                             ]
                         }))
                         i++
                     } else {
-                        whiskey = {...whiskey,
-                            idx: i}
+                        whiskey = {
+                            ...whiskey,
+                            idx: i
+                        }
                         this.setState(({deck}) => ({
                             deck: [
-                            ...deck,
-                            whiskey
+                                ...deck,
+                                whiskey
                             ]
                         }))
                         i++
                     }
                 })
-
-                this.setState({loaded:true})
+                this.setState({empty: false})
             }
+
         })
     }
 
@@ -229,7 +234,8 @@ export default class HomePage extends React.Component {
                                     </Grid>
 
                                     <Grid item sm={3} style={{marginInlineStart:20}}>
-                                        <CreateDialog 
+                                        <CreateDialog
+                                            id='id_create_id'
                                             onCreate={this.handleSubmit}
                                             index={deck.length}
                                         />
@@ -237,7 +243,7 @@ export default class HomePage extends React.Component {
         
                                 </Grid>
                                 {deck.map((whiskey) =>
-                                    <ListItem 
+                                    <ListItem
                                         key={whiskey.idx}
                                         id={'id_list_item' + whiskey.idx}
                                         button
@@ -252,12 +258,31 @@ export default class HomePage extends React.Component {
                                         </ListItemSecondaryAction>
                                     </ListItem>
                                 )}
+                                {this.state.empty === false ?
+                                    deck.map((whiskey) =>
+                                        <ListItem
+                                            key={whiskey.idx}
+                                            button
+                                            onClick={() => this.handleListClick(whiskey.idx)}
+                                            name="whisk"
+                                            id={"id_item_" + whiskey.idx}
+                                        >
+                                            <ListItemText primary={whiskey.name} />
+                                            <ListItemSecondaryAction>
+                                                <Form
+                                                    onEdit={this.handleExerciseEdit}
+                                                    whiskey={whiskey}
+                                                />
+                                            </ListItemSecondaryAction>
+                                        </ListItem>
+                                    )
+                                    : null}
                             </List>
                         </Paper>
                     </Grid>
                     <Grid item sm>
                         <div id="id_whisk_div">
-                            {this.state.loaded ? 
+                            {this.state.loaded ?
                             <table>
                                 <tbody>
                                     <tr>
@@ -284,7 +309,7 @@ export default class HomePage extends React.Component {
                                     </tr>
                                 </tbody>
                             </table>
-                            : <p id="id_empty_list"> No whiskeys. Please add one to your list :).</p>}
+                            : <p id="id_empty_list"> No whiskeys.</p>}
                         </div>
                     </Grid>
                 </Grid>
