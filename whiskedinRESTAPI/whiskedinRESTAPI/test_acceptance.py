@@ -23,6 +23,7 @@ class Sprint1AcceptanceTests(WhiskedTest):
 
     def tearDown(self):
         db.drop_all()
+        db.create_all()
         self.driver.quit()
 
     def test_register_login(self):
