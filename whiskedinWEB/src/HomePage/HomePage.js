@@ -48,30 +48,30 @@ export default class HomePage extends React.Component {
                 whiskeys = res.data;
             }
 
-                let i = 0
+            let i = 0
 
-                whiskeys.map(whiskey => {
-                    if(i === 0){
-                        whiskey = {...whiskey,
-                            idx: i}
-                        this.setState(({deck}) => ({
-                            deck: [
-                            whiskey
-                            ]
-                        }))
-                        i++
-                    } else {
-                        whiskey = {...whiskey,
-                            idx: i}
-                        this.setState(({deck}) => ({
-                            deck: [
-                            ...deck,
-                            whiskey
-                            ]
-                        }))
-                        i++
-                    }
-                })
+            whiskeys.map(whiskey => {
+                if(i === 0){
+                    whiskey = {...whiskey,
+                        idx: i}
+                    this.setState(({deck}) => ({
+                        deck: [
+                        whiskey
+                        ]
+                    }))
+                    i++
+                } else {
+                    whiskey = {...whiskey,
+                        idx: i}
+                    this.setState(({deck}) => ({
+                        deck: [
+                        ...deck,
+                        whiskey
+                        ]
+                    }))
+                    i++
+                }
+            })
 
             if(whiskeys.length !== 0){
                 this.setState({empty:false})
@@ -128,7 +128,7 @@ export default class HomePage extends React.Component {
                     ]
                 }))
 
-                this.setState({loaded: true})
+                this.setState({empty: false})
             }).catch( res => {
                 if(document.getElementById("id_error") === null) {
                     var error_el = document.createElement("err");
