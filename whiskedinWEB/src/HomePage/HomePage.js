@@ -48,33 +48,40 @@ export default class HomePage extends React.Component {
                 whiskeys = res.data;
             }
 
-            let i = 0
+            if (whiskeys.length === 0){
+                 this.setState({empty: true})
+            }
+            else {
 
-            whiskeys.map(whiskey => {
-                if(i === 0){
-                    whiskey = {...whiskey,
-                        idx: i}
-                    this.setState(({deck}) => ({
-                        deck: [
-                        whiskey
-                        ]
-                    }))
-                    i++
-                } else {
-                    whiskey = {...whiskey,
-                        idx: i}
-                    this.setState(({deck}) => ({
-                        deck: [
-                        ...deck,
-                        whiskey
-                        ]
-                    }))
-                    i++
-                }
-            })
+                let i = 0
 
-            if(whiskeys.length !== 0){
-                this.setState({empty:false})
+                whiskeys.map(whiskey => {
+                    if (i === 0) {
+                        whiskey = {
+                            ...whiskey,
+                            idx: i
+                        }
+                        this.setState(({deck}) => ({
+                            deck: [
+                                whiskey
+                            ]
+                        }))
+                        i++
+                    } else {
+                        whiskey = {
+                            ...whiskey,
+                            idx: i
+                        }
+                        this.setState(({deck}) => ({
+                            deck: [
+                                ...deck,
+                                whiskey
+                            ]
+                        }))
+                        i++
+                    }
+                })
+                this.setState({empty: false})
             }
 
         })
@@ -235,23 +242,25 @@ export default class HomePage extends React.Component {
                                     </Grid>
         
                                 </Grid>
-                                {deck.map((whiskey) =>
-                                    <ListItem 
-                                        key={whiskey.idx}
-                                        button
-                                        onClick={() => this.handleListClick(whiskey.idx)}
-                                        name="whisk"
-                                        id={"id_item_" + whiskey.idx}
-                                    >
-                                        <ListItemText primary={whiskey.name} />
-                                        <ListItemSecondaryAction>
-                                            <Form
-                                                onEdit={this.handleExerciseEdit}
-                                                whiskey={whiskey}
-                                            />
-                                        </ListItemSecondaryAction>
-                                    </ListItem>
-                                )}
+                                {this.state.empty === false ?
+                                    deck.map((whiskey) =>
+                                        <ListItem
+                                            key={whiskey.idx}
+                                            button
+                                            onClick={() => this.handleListClick(whiskey.idx)}
+                                            name="whisk"
+                                            id={"id_item_" + whiskey.idx}
+                                        >
+                                            <ListItemText primary={whiskey.name} />
+                                            <ListItemSecondaryAction>
+                                                <Form
+                                                    onEdit={this.handleExerciseEdit}
+                                                    whiskey={whiskey}
+                                                />
+                                            </ListItemSecondaryAction>
+                                        </ListItem>
+                                    )
+                                    : null}
                             </List>
                         </Paper>
                     </Grid>
