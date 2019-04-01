@@ -128,6 +128,8 @@ export default class HomePage extends React.Component {
                       newWhiskey
                     ]
                 }))
+
+                this.setState({loaded: true})
             }).catch( res => {
                 if(document.getElementById("id_error") === null) {
                     var error_el = document.createElement("err");
