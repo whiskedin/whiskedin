@@ -7,3 +7,4 @@ gunicorn
 Flask-Testing
 flask-cors
 selenium
+pytest
