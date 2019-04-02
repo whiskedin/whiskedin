@@ -2,5 +2,5 @@ language: python
 install: 
   pip install -r requirements.txt
 script:
-  python -m pytest whiskedinRESTAPI/wihiskedinRESTAPI/test_acceptance.py
+  python -m pytest whiskedinRESTAPI/whiskedinRESTAPI/test_acceptance.py
   python -m pytest whiskedinRESTAPI/whiskedinRESTAPI/test_whisk_routes.py
