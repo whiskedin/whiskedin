@@ -71,13 +71,13 @@ export default withStyles(styles)  (class extends Component {
     }
 
     render() {
-        const { open, whiskey: { name, company, type, age, origin, flavor, description, rating } } = this.state,
+        const { open, whiskey: { name, company, type, age, origin, flavor, description, rating, idx } } = this.state,
             { classes } = this.props
 
         return (
             <Fragment>
                 <ListItemSecondaryAction>
-                    <IconButton onClick={this.handleToggle}>
+                    <IconButton id={'id_edit_button' + idx} name="edit" onClick={this.handleToggle}>
                         <Edit/>
                     </IconButton>
                 </ListItemSecondaryAction>
@@ -87,7 +87,7 @@ export default withStyles(styles)  (class extends Component {
                     onClose={this.handleToggle}
                     aria-labelledby="form-dialog-title"
                 >
-                    <DialogTitle id="form-dialog-title">Create New Whiskey</DialogTitle>
+                    <DialogTitle id="id_form_dialog_title">Create New Whiskey</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
                             Please fill out the form below.
@@ -170,7 +170,7 @@ export default withStyles(styles)  (class extends Component {
                     </DialogContent>
                     <DialogActions>
                         <Button 
-                            id='id_button_edit'
+                            id='id_button_submit'
                             color="primary"
                             variant='contained'
                             onClick={this.handleEdit}

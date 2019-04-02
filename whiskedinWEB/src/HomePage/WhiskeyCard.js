@@ -30,7 +30,7 @@ export default class WhiskeyCard extends React.Component {
                         <Typography id='id_type' gutterBottom variant="headline" component="h6" style={{display: 'inline-block', paddingInlineEnd:50}}>
                             {this.props.card.type}
                         </Typography>
-                        <Typography id='id__age' gutterBottom variant="headline" component="h6" style={{display: 'inline-block'}}>
+                        <Typography id='id_age' gutterBottom variant="headline" component="h6" style={{display: 'inline-block'}}>
                             {this.props.card.age}
                         </Typography>
                     </CardContent>
@@ -48,15 +48,16 @@ export default class WhiskeyCard extends React.Component {
                             {this.props.card.rating}
                         </Typography>
 
-                    </CardContent>
-                    <CardActions style={{justifyContent: 'center'}}>
-                        <Button id='id_share_button' size="small" color="primary" >
-                        Share
-                        </Button>
-                    </CardActions>
-                            
-                </Card> 
-            </div>        
-        )
-    }
+                        </CardContent>
+                        <CardActions style={{justifyContent: 'center'}}>
+                            <Button id='id_share_button' size="small" color="primary">
+                                Share
+                            </Button>
+                        </CardActions>
+
+                    </Card>
+                </div>
+            )
+        }
+
 }

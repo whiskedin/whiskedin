@@ -88,7 +88,7 @@ export default withStyles(styles)  (class extends Component {
                     onClose={this.handleToggle}
                     aria-labelledby="form-dialog-title"
                 >
-                    <DialogTitle id="form-dialog-title">Create New Whiskey</DialogTitle>
+                    <DialogTitle id='id_form_title' >Create New Whiskey</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
                             Please fill out the form below.
