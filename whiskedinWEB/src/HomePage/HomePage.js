@@ -48,7 +48,7 @@ export default class HomePage extends React.Component {
             }
 
             if (whiskeys.length === 0){
-                 this.setState({empty: true})
+                 this.setState({loaded: false})
             }
             else {
 
@@ -81,7 +81,7 @@ export default class HomePage extends React.Component {
                         i++
                     }
                 })
-                this.setState({empty: false})
+                this.setState({loaded: true})
             }
 
         })
@@ -242,23 +242,7 @@ export default class HomePage extends React.Component {
                                     </Grid>
         
                                 </Grid>
-                                {deck.map((whiskey) =>
-                                    <ListItem
-                                        key={whiskey.idx}
-                                        id={'id_list_item' + whiskey.idx}
-                                        button
-                                        onClick={() => this.handleListClick(whiskey.idx)}
-                                    >
-                                        <ListItemText id={'id_list_item_text' + whiskey.idx} primary={whiskey.name} />
-                                        <ListItemSecondaryAction>
-                                            <Form
-                                                onEdit={this.handleExerciseEdit}
-                                                whiskey={whiskey}
-                                            />
-                                        </ListItemSecondaryAction>
-                                    </ListItem>
-                                )}
-                                {this.state.empty === false ?
+                                {this.state.loaded ?
                                     deck.map((whiskey) =>
                                         <ListItem
                                             key={whiskey.idx}
@@ -267,7 +251,7 @@ export default class HomePage extends React.Component {
                                             name="whisk"
                                             id={"id_item_" + whiskey.idx}
                                         >
-                                            <ListItemText primary={whiskey.name} />
+                                            <ListItemText id={'id_list_item_text' + whiskey.idx} primary={whiskey.name} />
                                             <ListItemSecondaryAction>
                                                 <Form
                                                     onEdit={this.handleExerciseEdit}
