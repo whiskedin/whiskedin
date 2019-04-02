@@ -29,8 +29,6 @@ def register_user():
         password
     :return: json containing access_token if all goes well
     """
-    print(request)
-    print(request.form)
     username = request.form['username']
     password = request.form['password']
 

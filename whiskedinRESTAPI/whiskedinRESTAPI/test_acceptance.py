@@ -16,7 +16,7 @@ class AcceptanceTests(WhiskedTest):
         db.drop_all()
         db.create_all()
         self.driver.get(self.deployment_url)
-        
+
     def tearDown(self):
         super(AcceptanceTests, self).tearDown()
         self.driver.quit()
@@ -44,7 +44,7 @@ class AcceptanceTests(WhiskedTest):
             name = self.driver.find_element_by_id('id_name').text
             brand = self.driver.find_element_by_id('id_brand').text
             button.click()
-            if index != times_to_click-1:
+            if index != times_to_click - 1:
                 self.assertNotEqual(name, self.driver.find_element_by_id('id_name').text)
                 self.assertNotEqual(brand, self.driver.find_element_by_id('id_brand').text)
             else:
@@ -178,7 +178,7 @@ class Sprint2AcceptanceTests(AcceptanceTests):
         edit = self.driver.find_element_by_name('edit')
         edit.click()
         self.fill_whisky_form('edit')
-        self.driver.find_element_by_id('id_button_edit').click()
+        self.driver.find_element_by_id('id_button_submit').click()
         time.sleep(5)
         list_item = self.driver.find_element_by_id("id_item_4")
         list_item.click()
@@ -209,7 +209,7 @@ class Sprint2AcceptanceTests(AcceptanceTests):
         items = []
         for i in range(5):
             items.append(self.driver.find_element_by_id("id_item_%s" % i))
-        search_field = self.driver.find_element_by_id("id_searchInput")
+        search_field = self.driver.find_element_by_id("id_search_input")
         search_field.send_keys("unique")
         time.sleep(5)
         new_items = []
@@ -272,7 +272,7 @@ class Sprint2AcceptanceTests(AcceptanceTests):
         name = self.driver.find_element_by_id("id_name").text
         company = self.driver.find_element_by_id("id_brand").text
         type = self.driver.find_element_by_id("id_type").text
-        age = self.driver.find_element_by_id("id__age").text
+        age = self.driver.find_element_by_id("id_age").text
         origin = self.driver.find_element_by_id("id_origin").text
         flavor = self.driver.find_element_by_id("id_flavor").text
         description = self.driver.find_element_by_id("id_description").text
