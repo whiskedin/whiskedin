@@ -5,8 +5,9 @@ install:
   
 stage: unit tests
 script:
-  python -m pytest whiskedinRESTAPI/whiskedinRESTAPI/test_acceptance.py
-  
+  python -m pytest whiskedinRESTAPI/whiskedinRESTAPI/test_whisk_routes.py
+
 stage: System tests
 script:
-  python -m pytest whiskedinRESTAPI/whiskedinRESTAPI/test_whisk_routes.py
+  python -m pytest whiskedinRESTAPI/whiskedinRESTAPI/test_acceptance.py
+
