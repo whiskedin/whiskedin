@@ -1,8 +1,9 @@
+import logging
 from datetime import datetime
 
 import bcrypt
 from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from flask_sqlalchemy import SQLAlchemy
 
@@ -10,8 +11,9 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 cors = CORS(app, resources={r'/*': {"origins": "*"}})
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://flwxebtzpunihb:b2a44a6922588ca95d9acae686c4604e5feffe421f4127a04812' \
-                                        'f942d11e295d@ec2-50-17-193-83.compute-1.amazonaws.com:5432/d5shgthfdb4nb0'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://flwxebtzpunihb:b2a44a6922588c' \
+                                        'a95d9acae686c4604e5feffe421f4127a04812f942d11e29' \
+                                        '5d@ec2-50-17-193-83.compute-1.amazonaws.com:5432/d5shgthfdb4nb0'
 app.config['JWT_SECRET_KEY'] = 'verysecretkey'
 
 db = SQLAlchemy(app)
@@ -27,16 +29,15 @@ def register_user():
         password
     :return: json containing access_token if all goes well
     """
-
+    print(request)
+    print(request.form)
     username = request.form['username']
     password = request.form['password']
 
     if User.get_user(username):
         return jsonify(msg='username already exists'), 400
 
-    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-
-    User.create_user(username, hashed_password)
+    User.create_user(username, password)
     token = create_access_token(identity=username)
     return jsonify(access_token=token), 201
 
@@ -61,7 +62,7 @@ def login():
         return jsonify(msg='Invalid username or password'), 400
 
 
-@app.route('/whisky', methods=['GET', 'POST', 'PUT'])
+@app.route('/whiskies', methods=['GET', 'POST', 'PUT'])
 @jwt_required
 def whisky():
     '''
@@ -76,25 +77,33 @@ def whisky():
     must send the updated parameters and the wid
     returns the updated whisky
     '''
+    username = get_jwt_identity()
+    user = User.get_user(username)
     if request.method == 'GET':
-        username = get_jwt_identity()
-        user = User.get_user(username)
-        whiskies = [whisk.build_dict() for whisk in user.whiskies]
+        if 's' in request.args:
+            s = request.args['s']
+            whiskies = [whisk.build_dict() for whisk in Whisky.get_whiskies(s, user.uid)]
+        else:
+            whiskies = [whisk.build_dict() for whisk in user.whiskies]
         return jsonify(whiskies=whiskies)
 
     elif request.method == 'POST':
-        username = get_jwt_identity()
-        user = User.get_user(username)
-        form = request.form
+        form = request.json
+        try:
+            int(form['age'])
+            int(form['rating'])
+        except ValueError:
+            return jsonify(msg='age and rating must be integers'), 400
         whisky = Whisky.create_whisky(form['name'], form['company'], form['type'], form['age'], form['origin'],
                                       form['flavor'], form['description'], form['rating'], user.uid)
 
         return jsonify(whisky=whisky.build_dict()), 201
 
     elif request.method == 'PUT':
-        username = get_jwt_identity()
-        form = request.form
-        updated_whisky = Whisky.update_whisky(**form)
+        form = request.json
+        updated_whisky = Whisky.update_whisky(form, user.uid)
+        if updated_whisky is None:
+            return jsonify(msg='Not your whisky to edit'), 403
         return jsonify(whisky=updated_whisky.build_dict()), 202
 
 
@@ -114,7 +123,6 @@ class User(db.Model):
     whiskies = db.relationship('Whisky', backref='user')
 
     def __init__(self, *args, **kwargs):
-        #TODO: hash password here
         super(User, self).__init__(*args, **kwargs)
 
     @staticmethod
@@ -127,7 +135,8 @@ class User(db.Model):
 
     @staticmethod
     def create_user(username, password):
-        new_user = User(username=username, hashed_password=password)
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        new_user = User(username=username, hashed_password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
         return new_user
@@ -163,18 +172,28 @@ class Whisky(db.Model):
         return new_whisky
 
     @staticmethod
-    def update_whisky(wid, **kwargs):
-        whisky = Whisky.get_wisky(wid)
-        for key, value in kwargs.items():
+    def update_whisky(form, uid):
+        whisky = Whisky.get_wisky(form['wid'])
+        if whisky.created_by != uid:
+            return None
+        for key, value in form.items():
             whisky.__setattr__(key, value)
         db.session.commit()
         return whisky
 
     @staticmethod
     def get_wisky(wid):
-        whisky = Whisky.query.filter(wid=wid).first()
+        whisky = Whisky.query.filter_by(wid=wid).first()
         return whisky
 
+    @staticmethod
+    def get_whiskies(search, uid):
+        search = '%' + search + '%'
+        whiskies = Whisky.query.filter(Whisky.name.ilike(search) | Whisky.company.ilike(search) |
+                                       Whisky.type.ilike(search) | Whisky.origin.ilike(search) |
+                                       Whisky.flavor.ilike(search) |
+                                       Whisky.description.ilike(search)).filter_by(created_by=uid)
+        return whiskies
 
     def build_dict(self):
         whisk = {
@@ -189,7 +208,7 @@ class Whisky(db.Model):
             'description': self.description,
             'rating': self.rating,
             'created_at': self.created_at,
-            'created_by': User.get_user(self.created_by).build_dict()
+            'created_by': User.get_user(self.created_by).username
         }
         return whisk
 
