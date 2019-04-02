@@ -3,6 +3,5 @@ python: "3.6"
 install: 
   pip install -r requirements.txt
 script:
-  python -m pytest whiskedinRESTAPI/whiskedinRESTAPI/test_acceptance.py
-script:
-  python -m pytest whiskedinRESTAPI/whiskedinRESTAPI/test_whisk_routes.py
+  -python -m pytest whiskedinRESTAPI/whiskedinRESTAPI/test_acceptance.py
+  -python -m pytest whiskedinRESTAPI/whiskedinRESTAPI/test_whisk_routes.py
