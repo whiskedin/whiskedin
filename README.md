@@ -7,7 +7,7 @@ To run all unit tests:
 `python -m pytest whiskedinRESTAPI/whiskedinRESTAPI/test_whisk_routes.py`
 
 To run selenium system tests:
-`python -m pytest whiskedinRESTAPI/whiskedinRESTAPI/test_acceptance.py
+`python -m pytest whiskedinRESTAPI/whiskedinRESTAPI/test_acceptance.py`
 
 ## Running tests for frontend
 In terminal run yarn test
