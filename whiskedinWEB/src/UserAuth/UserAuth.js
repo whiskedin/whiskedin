@@ -20,6 +20,7 @@ import whisk from '../img/whiskedinlogo.png';
 
 import API_URL from '../index'
 
+
 export default class UserAuth extends Component {
 
     constructor(props) {
@@ -63,9 +64,8 @@ export default class UserAuth extends Component {
         data.append('password', this.state.password);
 
         // Contacting API to validate user password
-        axios.post(API_URL + `/login`, data, {
-            headers: {'Content-Type': 'application/json',}
-        })
+        // eslint-disable-next-line no-useless-concat
+        axios.post(API_URL + `/login`, data)
             .then(res => {
                 if (res.data["access_token"]) {
                     localStorage.setItem('user', JSON.stringify(res.data["access_token"]));
@@ -89,9 +89,8 @@ export default class UserAuth extends Component {
         data.append('password', this.state.password);
 
         // Contacting api to add new user
-        axios.post(API_URL + `/register`, data, {
-            headers: {'Content-Type': 'application/json',}
-        })
+        // eslint-disable-next-line no-useless-concat
+        axios.post(API_URL + `/register`, data)
             .then(res => {
                 console.log(res);
                 console.log(res.data);
