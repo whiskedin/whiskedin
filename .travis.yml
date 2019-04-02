@@ -2,12 +2,7 @@ language: python
 python: "3.6"
 install: 
   pip install -r requirements.txt
-  
-stage: unit tests
 script:
   python -m pytest whiskedinRESTAPI/whiskedinRESTAPI/test_whisk_routes.py
 
-stage: System tests
-script:
-  python -m pytest whiskedinRESTAPI/whiskedinRESTAPI/test_acceptance.py
 
