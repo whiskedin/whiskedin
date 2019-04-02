@@ -2,6 +2,7 @@ import os
 import time
 
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -11,7 +12,10 @@ from whiskedinRESTAPI.whiskedinRESTAPI.whisked_test import WhiskedTest
 
 class AcceptanceTests(WhiskedTest):
     def setUp(self):
-        self.driver = webdriver.Chrome(os.getcwd() + '/whiskedinRESTAPI/whiskedinRESTAPI/Drivers/chromedriver')
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--window-size=1920x1080")
+        self.driver = webdriver.Chrome(chrome_options=chrome_options, executable_path=os.getcwd() + '/whiskedinRESTAPI/whiskedinRESTAPI/Drivers/chromedriver')
         self.wait = WebDriverWait(self.driver, 10)
         db.drop_all()
         db.create_all()
@@ -169,11 +173,36 @@ class Sprint2AcceptanceTests(AcceptanceTests):
             self.fail("Card not showing")
         self.compare_whisk(whis)
 
+    def test_create_whisk_fail(self):
+        User.create_user('username', 'password')
+        self.login_user('username', 'password')
+        time.sleep(1)
+        add = self.driver.find_element_by_id("id_add_button")
+        add.click()
+        self.fill_whisky_form('create', age_value='as')
+        age = self.driver.find_element_by_id('id_age_create')
+        age.send_keys('as')
+        create = self.driver.find_element_by_id("id_button_create")
+        create.click()
+        time.sleep(2)
+        error = self.driver.find_element_by_id("id_error")
+        self.assertIsNotNone(error)
+        add = self.driver.find_element_by_id("id_add_button")
+        add.click()
+        self.fill_whisky_form('create')
+        create = self.driver.find_element_by_id("id_button_create")
+        create.click()
+        try:
+            self.driver.find_element_by_id('id_error')
+            self.fail("error message should not appear")
+        except:
+            pass
+
     def test_editing_whisky(self):
         user = User.create_user('username', 'password')
         self.load_whiskies(user)
         self.login_user('username', 'password')
-        time.sleep(2)
+        time.sleep(5)
         whis = self.get_whisky_card_attr()
         edit = self.driver.find_element_by_name('edit')
         edit.click()
@@ -235,7 +264,7 @@ class Sprint2AcceptanceTests(AcceptanceTests):
         except:
             pass
 
-    def fill_whisky_form(self, type_form):
+    def fill_whisky_form(self, type_form, age_value='12'):
         name = self.driver.find_element_by_id("id_name_%s" % type_form)
         name.clear()
         name.send_keys('name')
@@ -250,7 +279,7 @@ class Sprint2AcceptanceTests(AcceptanceTests):
 
         age = self.driver.find_element_by_id("id_age_%s" % type_form)
         age.clear()
-        age.send_keys(12)
+        age.send_keys(age_value)
 
         origin = self.driver.find_element_by_id("id_origin_%s" % type_form)
         origin.clear()
